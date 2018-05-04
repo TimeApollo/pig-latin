@@ -45,7 +45,7 @@ function encodeWord(word) {
 function encodeText(text) {
   let wordsInText = String(text).split(" ")
   let textInPigLatin = []
-  wordsInText.forEach(word => textInPigLatin.push(encodeWord(word)));
+  wordsInText.forEach(word => word.match(/\w$/) ? textInPigLatin.push(encodeWord(word)) : textInPigLatin.push(encodeWord(word.slice(0,-1)) + word.slice(-1)));
   return textInPigLatin.join(" "); // replace this!
 }
 
@@ -113,7 +113,11 @@ function decodeWord(word) {
     STEP # 9: Decode a full sentence or paragraph pig latin to english.
 */
 function decodeText(text) {
-  return String(text).split(" ").map(word => decodeWord(word)).join(" ");
+  return String(text)
+    .split(" ")
+    .map(word => word.match(/\d/) ? word :
+    word.match(/\w$/) ? decodeWord(word)  : decodeWord(word.slice(0,-1)) + word.slice(-1))
+    .join(" ");
 }
 
 /*
